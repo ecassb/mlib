@@ -53,3 +53,6 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# Local Files
+ISO_IEC_9899_2024_C23.pdf
