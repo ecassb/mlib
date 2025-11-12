@@ -24,7 +24,7 @@ CFLAGS := -Wall -Wextra -Werror -pedantic -std=c23
 CFLAGS += -fPIC  # Position independent code for shared library
 CFLAGS_LIB := -I $(INCLUDE_DIR)
 CFLAGS_TEST := -iquote $(INCLUDE_DIR) 
-CFLAGS_TEST += -iquote tests/inlcude
+CFLAGS_TEST += -iquote $(TEST_DIR)/include
 
 # Debug/Release flags
 DEBUG_FLAGS := -g -O0 -DDEBUG
@@ -55,9 +55,11 @@ SRCS := $(STRING_SRCS) $(STDIO_SRCS) $(STDLIB_SRCS) $(MATH_SRCS) \
 # Object files (maintain directory structure in obj/)
 OBJS := $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
-# Test files
-TEST_SRCS := $(wildcard $(TEST_DIR)/*.c)
-TEST_BINS := $(TEST_SRCS:$(TEST_DIR)/%.c=$(TEST_DIR)/%)
+# Test files - find all test_*.c files in any subdirectory of tests/
+TEST_SRCS := $(shell find $(TEST_DIR) -name "test_*.c" -type f)
+TEST_BUILD_DIR := $(TEST_DIR)/build
+# Convert test source paths to binary paths by removing .c extension
+TEST_BINS := $(patsubst $(TEST_DIR)/%.c,$(TEST_BUILD_DIR)/%,$(TEST_SRCS))
 
 # Benchmark files
 BENCHMARK_SRCS := $(wildcard $(BENCHMARK_DIR)/*.c)
@@ -70,7 +72,7 @@ BENCHMARK_BINS := $(BENCHMARK_SRCS:$(BENCHMARK_DIR)/%.c=$(BENCHMARK_DIR)/%)
 all: $(STATIC_LIB) $(SHARED_LIB)
 
 # Create directories
-$(OBJ_DIR) $(LIB_DIR):
+$(OBJ_DIR) $(LIB_DIR) $(TEST_BUILD_DIR):
 	mkdir -p $@
 
 $(OBJ_DIR)/string $(OBJ_DIR)/stdio $(OBJ_DIR)/stdlib $(OBJ_DIR)/math \
@@ -102,7 +104,9 @@ test: $(TEST_BINS)
 	done
 	@echo "All tests passed!"
 
-$(TEST_DIR)/%: $(TEST_DIR)/%.c $(STATIC_LIB)
+# Pattern rule to build test executables from test_*.c files
+$(TEST_BUILD_DIR)/%: $(TEST_DIR)/%.c $(STATIC_LIB)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(CFLAGS_TEST) $< -L$(LIB_DIR) -lm -l$(LIB_NAME) -o $@
 
 # Benchmark targets
@@ -126,8 +130,8 @@ release:
 
 # Clean targets
 clean:
-	rm -rf $(OBJ_DIR) $(LIB_DIR)
-	rm -f $(TEST_BINS) $(BENCHMARK_BINS)
+	rm -rf $(OBJ_DIR) $(LIB_DIR) $(TEST_BUILD_DIR)
+	rm -f $(BENCHMARK_BINS)
 	rm -f $(TEST_DIR)/*.d $(BENCHMARK_DIR)/*.d
 
 clean-all: clean
