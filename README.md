@@ -53,10 +53,10 @@ Basic string operations to get familiar with the codebase structure.
 
 #### `<string.h>`
 
-- [X] ⚪ `strlen` - Calculate string length
-- [x] ⚪ `strcpy` - Copy string
-- [ ] ⚪ `strncpy` - Copy string with length limit
-- [ ] ⚪ `strcat` - Concatenate strings
+- [X] 🟡 `strlen` - Calculate string length
+- [x] 🟡 `strcpy` - Copy string
+- [x] 🟡 `strncpy` - Copy string with length limit
+- [x] ⚪ `strcat` - Concatenate strings
 - [ ] ⚪ `strncat` - Concatenate strings with length limit
 - [ ] ⚪ `strcmp` - Compare strings
 - [ ] ⚪ `strncmp` - Compare strings with length limit

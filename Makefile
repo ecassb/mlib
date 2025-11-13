@@ -23,6 +23,7 @@ SHARED_LIB := $(LIB_DIR)/lib$(LIB_NAME).so
 CFLAGS := -Wall -Wextra -Werror -pedantic -std=c23
 CFLAGS += -fPIC  # Position independent code for shared library
 CFLAGS_LIB := -I $(INCLUDE_DIR)
+#CFLAGS_LIB += -nostdinc
 CFLAGS_TEST := -iquote $(INCLUDE_DIR) 
 CFLAGS_TEST += -iquote $(TEST_DIR)/include
 
@@ -90,7 +91,7 @@ $(SHARED_LIB): $(OBJS) | $(LIB_DIR)
 
 # Object file compilation with automatic dependency tracking
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)/string $(OBJ_DIR)/stdio $(OBJ_DIR)/stdlib $(OBJ_DIR)/math $(OBJ_DIR)/ctype $(OBJ_DIR)/time $(OBJ_DIR)/setjmp $(OBJ_DIR)/signal
-	$(CC) $(CFLAGS) $(CFLAGS_LIB) -nostdinc -MMD -MP -c $< -o $@
+	$(CC) $(CFLAGS) $(CFLAGS_LIB) -MMD -MP -c $< -o $@
 
 # Include dependency files
 -include $(OBJS:.o=.d)
