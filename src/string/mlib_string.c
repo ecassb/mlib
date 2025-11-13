@@ -44,3 +44,16 @@ char* mlib_strcat(char* restrict dest, const char* restrict src) {
 
     return dest;
 }
+
+char* mlib_strncat(char* restrict dest, const char* restrict src, size_t count) {
+    size_t dest_len = mlib_strlen(dest);
+    size_t written_bytes = 0;
+    for(size_t i = 0; i < count; i ++) {
+        if (src[i] == '\0') break;
+        dest[dest_len + i] = src[i];
+        written_bytes++;
+    }
+    dest[dest_len + written_bytes] = '\0';
+
+    return dest;
+}

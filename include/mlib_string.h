@@ -9,7 +9,7 @@ char *mlib_strncpy(char* restrict dest, const char* restrict src, size_t count);
 
 //Concatenation
 char* mlib_strcat(char* restrict dest, const char* restrict src);
-
+char* mlib_strncat(char* restrict dest, const char* restrict src, size_t count);
 // Miscellaneous
 size_t mlib_strlen(const char* str);
 
