@@ -67,7 +67,7 @@ BENCHMARK_SRCS := $(wildcard $(BENCHMARK_DIR)/*.c)
 BENCHMARK_BINS := $(BENCHMARK_SRCS:$(BENCHMARK_DIR)/%.c=$(BENCHMARK_DIR)/%)
 
 # Default target
-.PHONY: all clean test benchmark install uninstall help
+.PHONY: all clean test test-% benchmark install uninstall help
 .DEFAULT_GOAL := all
 
 all: $(STATIC_LIB) $(SHARED_LIB)
@@ -104,6 +104,65 @@ test: $(TEST_BINS)
 		./$$test || exit 1; \
 	done
 	@echo "All tests passed!"
+
+# Pattern rule for individual test file (e.g., make test-string-strcat)
+# This rule must come before the module rule to be matched first
+test-%:
+	@TARGET=$*; \
+	if echo "$$TARGET" | grep -q ".*-.*"; then \
+		MODULE=$$(echo "$$TARGET" | cut -d'-' -f1); \
+		TESTNAME=$$(echo "$$TARGET" | cut -d'-' -f2-); \
+		TEST_FILE="$(TEST_DIR)/$$MODULE/test_$$TESTNAME.c"; \
+		if [ -f "$$TEST_FILE" ]; then \
+			TEST_BIN="$(TEST_BUILD_DIR)/$$MODULE/test_$$TESTNAME"; \
+			echo "Building and running test: $$MODULE/test_$$TESTNAME"; \
+			mkdir -p $$(dirname $$TEST_BIN); \
+			$(CC) $(CFLAGS) $(CFLAGS_TEST) $$TEST_FILE -L$(LIB_DIR) -lm -l$(LIB_NAME) -o $$TEST_BIN || exit 1; \
+			echo "Running $$TEST_BIN"; \
+			./$$TEST_BIN || exit 1; \
+			echo "Test passed: $$MODULE/test_$$TESTNAME"; \
+		else \
+			MODULE=$$TARGET; \
+			MODULE_TESTS=$$(find $(TEST_DIR)/$$MODULE -name "test_*.c" -type f 2>/dev/null); \
+			if [ -z "$$MODULE_TESTS" ]; then \
+				echo "No tests found for module: $$MODULE"; \
+				exit 1; \
+			fi; \
+			MODULE_BINS=$$(echo "$$MODULE_TESTS" | sed "s|$(TEST_DIR)/|$(TEST_BUILD_DIR)/|g" | sed "s|\.c$$||g"); \
+			echo "Building and running tests for module: $$MODULE"; \
+			for test_src in $$MODULE_TESTS; do \
+				test_bin=$$(echo "$$test_src" | sed "s|$(TEST_DIR)/|$(TEST_BUILD_DIR)/|g" | sed "s|\.c$$||g"); \
+				echo "Building $$test_bin"; \
+				mkdir -p $$(dirname $$test_bin); \
+				$(CC) $(CFLAGS) $(CFLAGS_TEST) $$test_src -L$(LIB_DIR) -lm -l$(LIB_NAME) -o $$test_bin || exit 1; \
+			done; \
+			for test_bin in $$MODULE_BINS; do \
+				echo "Running $$test_bin"; \
+				./$$test_bin || exit 1; \
+			done; \
+			echo "All tests passed for module: $$MODULE"; \
+		fi; \
+	else \
+		MODULE=$$TARGET; \
+		MODULE_TESTS=$$(find $(TEST_DIR)/$$MODULE -name "test_*.c" -type f 2>/dev/null); \
+		if [ -z "$$MODULE_TESTS" ]; then \
+			echo "No tests found for module: $$MODULE"; \
+			exit 1; \
+		fi; \
+		MODULE_BINS=$$(echo "$$MODULE_TESTS" | sed "s|$(TEST_DIR)/|$(TEST_BUILD_DIR)/|g" | sed "s|\.c$$||g"); \
+		echo "Building and running tests for module: $$MODULE"; \
+		for test_src in $$MODULE_TESTS; do \
+			test_bin=$$(echo "$$test_src" | sed "s|$(TEST_DIR)/|$(TEST_BUILD_DIR)/|g" | sed "s|\.c$$||g"); \
+			echo "Building $$test_bin"; \
+			mkdir -p $$(dirname $$test_bin); \
+			$(CC) $(CFLAGS) $(CFLAGS_TEST) $$test_src -L$(LIB_DIR) -lm -l$(LIB_NAME) -o $$test_bin || exit 1; \
+		done; \
+		for test_bin in $$MODULE_BINS; do \
+			echo "Running $$test_bin"; \
+			./$$test_bin || exit 1; \
+		done; \
+		echo "All tests passed for module: $$MODULE"; \
+	fi
 
 # Pattern rule to build test executables from test_*.c files
 $(TEST_BUILD_DIR)/%: $(TEST_DIR)/%.c $(STATIC_LIB)
@@ -185,6 +244,8 @@ help:
 	@echo "  debug      - Build debug version with symbols and no optimization"
 	@echo "  release    - Build optimized release version"
 	@echo "  test       - Compile and run all tests"
+	@echo "  test-<mod> - Compile and run tests for specific module (e.g., test-string)"
+	@echo "  test-<mod>-<file> - Compile and run specific test file (e.g., test-string-strcat)"
 	@echo "  benchmark  - Compile and run all benchmarks"
 	@echo "  clean      - Remove build artifacts"
 	@echo "  clean-all  - Remove all generated files"
@@ -202,5 +263,7 @@ help:
 	@echo "Examples:"
 	@echo "  make                      - Build debug version"
 	@echo "  make release             - Build release version"
-	@echo "  make test                - Run tests"
+	@echo "  make test                - Run all tests"
+	@echo "  make test-string         - Run only string module tests"
+	@echo "  make test-string-strcat  - Run only test_strcat.c from string module"
 	@echo "  make clean && make       - Clean rebuild" 

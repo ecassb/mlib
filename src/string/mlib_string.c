@@ -1,6 +1,6 @@
 #include "mlib_string.h"
 
-#include <stdio.h>   //Just for debug purpose
+// #include <stdio.h>   //Just for debug purpose
 
 size_t mlib_strlen (const char* str) {
     size_t length = 0;
@@ -54,13 +54,14 @@ char* mlib_strncat (char* restrict dest, const char* restrict src, size_t count)
 
 int mlib_strcmp (const char* s1, const char* s2) {
     size_t s1_len = mlib_strlen (s1);
-    size_t s2_len = mlib_strlen (s1);
+    size_t s2_len = mlib_strlen (s2);
 
     if (s1_len < s2_len) {
         return -1;
     } else if (s1_len > s2_len) {
         return 1;
     }
+
     for (size_t i = 0; i < s1_len; i++) {
         if (s1[i] < s2[i]) {
             return -1;

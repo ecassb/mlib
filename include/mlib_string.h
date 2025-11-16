@@ -1,5 +1,7 @@
+#undef __STDC_VERSION_STRING_H__
 #define __STDC_VERSION_STRING_H__ 202311L
-#define NULL                      ((void*) 0)
+#undef NULL
+#define NULL ((void*) 0)
 
 typedef typeof (sizeof (0)) size_t;
 
