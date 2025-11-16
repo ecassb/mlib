@@ -56,9 +56,9 @@ Basic string operations to get familiar with the codebase structure.
 - [X] 🟡 `strlen` - Calculate string length
 - [x] 🟡 `strcpy` - Copy string
 - [x] 🟡 `strncpy` - Copy string with length limit
-- [x] ⚪ `strcat` - Concatenate strings
-- [ ] ⚪ `strncat` - Concatenate strings with length limit
-- [ ] ⚪ `strcmp` - Compare strings
+- [x] 🟡 `strcat` - Concatenate strings
+- [x] 🟡 `strncat` - Concatenate strings with length limit
+- [x] ⚪ `strcmp` - Compare strings
 - [ ] ⚪ `strncmp` - Compare strings with length limit
 - [ ] ⚪ `strchr` - Find character in string
 - [ ] ⚪ `strrchr` - Find last occurrence of character
