@@ -60,3 +60,6 @@ ISO_IEC_9899_2024_C23.pdf
 
 #Formatter 
 .clang-format
+
+#Visual studio code
+.vscode
