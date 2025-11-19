@@ -18,17 +18,34 @@ int mlib_strcmp (const char* s1, const char* s2);
 int mlib_strncmp (const char* s1, const char* s2, size_t count);
 
 // Search
-const char* mlib_strchr_const (const char* s, int c);
-char* mlib_strchr_noconst (char* s, int c);
+const char* mlib_strchr_const (const char* haystack, int needle);
+char* mlib_strchr_noconst (char* haystack, int needle);
 
-#define mlib_strchr(s, c) \
-    _Generic ((s), const char*: mlib_strchr_const, default: mlib_strchr_noconst) (s, c)
+#define mlib_strchr(haystack, needle)                                                     \
+    _Generic ((haystack), const char*: mlib_strchr_const, default: mlib_strchr_noconst) ( \
+      haystack,                                                                           \
+      needle                                                                              \
+    )
 
-const char* mlib_strrchr_const (const char* s, int c);
-char* mlib_strrchr_noconst (char* s, int c);
+const char* mlib_strrchr_const (const char* haystack, int needle);
+char* mlib_strrchr_noconst (char* haystack, int needle);
 
-#define mlib_strrchr(s, c) \
-    _Generic ((s), const char*: mlib_strrchr_const, default: mlib_strrchr_noconst) (s, c)
+#define mlib_strrchr(haystack, needle)                                                      \
+    _Generic ((haystack), const char*: mlib_strrchr_const, default: mlib_strrchr_noconst) ( \
+      haystack,                                                                             \
+      needle                                                                                \
+    )
+
+const char* mlib_strstr_const (const char* haystack, const char* needle);
+char* mlib_strstr_noconst (char* haystack, const char* needle);
+
+#define mlib_strstr(haystack, needle)                                                     \
+    _Generic ((haystack), const char*: mlib_strstr_const, default: mlib_strstr_noconst) ( \
+      haystack,                                                                           \
+      needle                                                                              \
+    )
+
+size_t mlib_strspn (const char* str, const char* char_set);
 
 // Miscellaneous
 size_t mlib_strlen (const char* str);

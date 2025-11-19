@@ -62,8 +62,8 @@ Basic string operations to get familiar with the codebase structure.
 - [x] 🟡 `strncmp` - Compare strings with length limit
 - [x] 🟡 `strchr` - Find character in string
 - [x] 🟡 `strrchr` - Find last occurrence of character
-- [ ] ⚪ `strstr` - Find substring
-- [ ] ⚪ `strspn` - Get span of characters in set
+- [x] 🟡 `strstr` - Find substring
+- [x] ⚪ `strspn` - Get span of characters in set
 - [ ] ⚪ `strcspn` - Get span of characters not in set
 - [ ] ⚪ `strpbrk` - Find first occurrence of characters from set
 - [ ] ⚪ `strtok` - Split string into tokens

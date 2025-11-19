@@ -142,3 +142,49 @@ char* mlib_strrchr_noconst (char* s, int c) {
     if (s[0] == cc) return s;
     return nullptr;
 }
+
+const char* mlib_strstr_const (const char* haystack, const char* needle) {
+    const size_t needle_length = mlib_strlen (needle);
+    const size_t haystack_lenght = mlib_strlen (haystack);
+
+    if (needle_length > haystack_lenght) { return nullptr; }
+
+    if (needle_length == 0) { return haystack; }
+
+    for (size_t i = 0; i <= (haystack_lenght - needle_length); i++) {
+        if (mlib_strncmp (haystack + i, needle, needle_length) == 0) { return &haystack[i]; }
+    }
+
+    return nullptr;
+}
+
+char* mlib_strstr_noconst (char* haystack, const char* needle) {
+    const size_t needle_length = mlib_strlen (needle);
+    const size_t haystack_lenght = mlib_strlen (haystack);
+
+    if (needle_length > haystack_lenght) { return nullptr; }
+
+    if (needle_length == 0) { return haystack; }
+
+    for (size_t i = 0; i <= (haystack_lenght - needle_length); i++) {
+        if (mlib_strncmp (haystack + i, needle, needle_length) == 0) { return &haystack[i]; }
+    }
+
+    return nullptr;
+}
+
+size_t mlib_strspn (const char* str, const char* char_set) {
+    size_t max_span_length = 0;
+    size_t current_span_length = 0;
+    size_t str_length = mlib_strlen (str);
+    for (size_t i = 0; i < str_length; i++) {
+        if (mlib_strchr (char_set, str[i]) != nullptr) {
+            current_span_length++;
+        } else {
+            if (current_span_length > max_span_length) { max_span_length = current_span_length; }
+            current_span_length = 0;
+        }
+    }
+
+    return max_span_length;
+}
