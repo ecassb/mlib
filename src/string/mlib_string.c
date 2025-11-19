@@ -96,3 +96,49 @@ int mlib_strncmp (const char* s1, const char* s2, size_t count) {
 
     return mlib_strcmp (sized_s1, sized_s2);
 }
+
+const char* mlib_strchr_const (const char* s, int c) {
+    char cc = (char) c;
+    size_t len = mlib_strlen (s);
+
+    for (size_t i = 0; i < len; i++) {
+        if (s[i] == cc) { return &s[i]; }
+    }
+
+    return nullptr;
+}
+
+char* mlib_strchr_noconst (char* s, int c) {
+    char cc = (char) c;
+    size_t len = mlib_strlen (s);
+
+    for (size_t i = 0; i < len; i++) {
+        if (s[i] == cc) { return &s[i]; }
+    }
+
+    return nullptr;
+}
+
+const char* mlib_strrchr_const (const char* s, int c) {
+    char cc = (char) c;
+    size_t len = mlib_strlen (s);
+
+    for (size_t i = len - 1; i > 0; i--) {
+        if (s[i] == cc) { return &s[i]; }
+    }
+
+    if (s[0] == cc) return s;
+
+    return nullptr;
+}
+
+char* mlib_strrchr_noconst (char* s, int c) {
+    char cc = (char) c;
+    size_t len = mlib_strlen (s);
+
+    for (size_t i = len - 1; i > 0; i--) {
+        if (s[i] == cc) { return &s[i]; }
+    }
+    if (s[0] == cc) return s;
+    return nullptr;
+}

@@ -59,9 +59,9 @@ Basic string operations to get familiar with the codebase structure.
 - [x] 🟡 `strcat` - Concatenate strings
 - [x] 🟡 `strncat` - Concatenate strings with length limit
 - [x] 🟡 `strcmp` - Compare strings
-- [ ] ⚪ `strncmp` - Compare strings with length limit
-- [ ] ⚪ `strchr` - Find character in string
-- [ ] ⚪ `strrchr` - Find last occurrence of character
+- [x] 🟡 `strncmp` - Compare strings with length limit
+- [x] 🟡 `strchr` - Find character in string
+- [x] 🟡 `strrchr` - Find last occurrence of character
 - [ ] ⚪ `strstr` - Find substring
 - [ ] ⚪ `strspn` - Get span of characters in set
 - [ ] ⚪ `strcspn` - Get span of characters not in set

@@ -107,7 +107,7 @@ test: $(TEST_BINS)
 
 # Pattern rule for individual test file (e.g., make test-string-strcat)
 # This rule must come before the module rule to be matched first
-test-%:
+test-%: $(STATIC_LIB)
 	@TARGET=$*; \
 	if echo "$$TARGET" | grep -q ".*-.*"; then \
 		MODULE=$$(echo "$$TARGET" | cut -d'-' -f1); \
