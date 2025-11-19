@@ -15,6 +15,7 @@ char* mlib_strncat (char* restrict dest, const char* restrict src, size_t count)
 
 // Compare
 int mlib_strcmp (const char* s1, const char* s2);
+int mlib_strncmp (const char* s1, const char* s2, size_t count);
 
 // Miscellaneous
 size_t mlib_strlen (const char* str);

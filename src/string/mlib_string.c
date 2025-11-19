@@ -1,6 +1,5 @@
 #include "mlib_string.h"
-
-// #include <stdio.h>   //Just for debug purpose
+// #include <stdio.h> //Just for debug purpose
 
 size_t mlib_strlen (const char* str) {
     size_t length = 0;
@@ -71,4 +70,29 @@ int mlib_strcmp (const char* s1, const char* s2) {
     }
 
     return 0;
+}
+
+int mlib_strncmp (const char* s1, const char* s2, size_t count) {
+    char sized_s1[count];
+    char sized_s2[count];
+    int s1_null_found = 0;
+    int s2_null_found = 0;
+
+    for (size_t i = 0; i < count; i++) {
+        if (s1_null_found == 0) {
+            sized_s1[i] = s1[i];
+            if (s1[i] == '\0') s1_null_found = 1;
+        } else {
+            sized_s1[i] = '\0';
+        }
+
+        if (s2_null_found == 0) {
+            sized_s2[i] = s2[i];
+            if (s2[i] == '\0') s2_null_found = 1;
+        } else {
+            sized_s2[i] = '\0';
+        }
+    }
+
+    return mlib_strcmp (sized_s1, sized_s2);
 }
