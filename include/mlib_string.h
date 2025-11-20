@@ -47,5 +47,15 @@ char* mlib_strstr_noconst (char* haystack, const char* needle);
 
 size_t mlib_strspn (const char* str, const char* char_set);
 size_t mlib_strcspn (const char* str, const char* char_set);
+
+const char* mlib_strpbrk_const (const char* haystack, const char* char_set);
+char* mlib_strpbrk_noconst (char* haystack, const char* char_set);
+
+#define mlib_strpbrk(haystack, char_set)                                                    \
+    _Generic ((haystack), const char*: mlib_strpbrk_const, default: mlib_strpbrk_noconst) ( \
+      haystack,                                                                             \
+      char_set                                                                              \
+    )
+
 // Miscellaneous
 size_t mlib_strlen (const char* str);

@@ -206,3 +206,23 @@ size_t mlib_strcspn (const char* str, const char* char_set) {
 
     return max_span_length;
 }
+
+const char* mlib_strpbrk_const (const char* haystack, const char* char_set) {
+    const size_t haystack_length = mlib_strlen (haystack);
+
+    for (size_t i = 0; i < haystack_length; i++) {
+        if (mlib_strchr (char_set, haystack[i]) != nullptr) { return &haystack[i]; }
+    }
+
+    return nullptr;
+}
+
+char* mlib_strpbrk_noconst (char* haystack, const char* char_set) {
+    const size_t haystack_length = mlib_strlen (haystack);
+
+    for (size_t i = 0; i < haystack_length; i++) {
+        if (mlib_strchr (char_set, haystack[i]) != nullptr) { return &haystack[i]; }
+    }
+
+    return nullptr;
+}
