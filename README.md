@@ -63,8 +63,8 @@ Basic string operations to get familiar with the codebase structure.
 - [x] 🟡 `strchr` - Find character in string
 - [x] 🟡 `strrchr` - Find last occurrence of character
 - [x] 🟡 `strstr` - Find substring
-- [x] ⚪ `strspn` - Get span of characters in set
-- [ ] ⚪ `strcspn` - Get span of characters not in set
+- [x] 🟡 `strspn` - Get span of characters in set
+- [x] ⚪ `strcspn` - Get span of characters not in set
 - [ ] ⚪ `strpbrk` - Find first occurrence of characters from set
 - [ ] ⚪ `strtok` - Split string into tokens
 - [ ] ⚪ `strdup` - Duplicate string (POSIX)

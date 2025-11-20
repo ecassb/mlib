@@ -46,6 +46,6 @@ char* mlib_strstr_noconst (char* haystack, const char* needle);
     )
 
 size_t mlib_strspn (const char* str, const char* char_set);
-
+size_t mlib_strcspn (const char* str, const char* char_set);
 // Miscellaneous
 size_t mlib_strlen (const char* str);

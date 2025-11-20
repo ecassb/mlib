@@ -188,3 +188,21 @@ size_t mlib_strspn (const char* str, const char* char_set) {
 
     return max_span_length;
 }
+
+size_t mlib_strcspn (const char* str, const char* char_set) {
+    size_t max_span_length = 0;
+    size_t current_span_length = 0;
+    size_t str_length = mlib_strlen (str);
+    for (size_t i = 0; i < str_length; i++) {
+        if (mlib_strchr (char_set, str[i]) == nullptr) {
+            current_span_length++;
+        } else {
+            if (current_span_length > max_span_length) { max_span_length = current_span_length; }
+            current_span_length = 0;
+        }
+    }
+
+    if (current_span_length > max_span_length) { return current_span_length; }
+
+    return max_span_length;
+}
